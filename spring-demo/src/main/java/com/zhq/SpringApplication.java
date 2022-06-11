@@ -25,6 +25,21 @@ import java.util.List;
  * 5.支持声明式事务，只需要配置就可以对事务进行管理
  * 6.封装了异常处理机制
  */
+
+/**
+ * Spring框架中的设计模式：
+ * 工厂模式：BeanFactory、ApplicationContext创建对象
+ * 代理模式：Spring的AOP（静态代理，动态代理）
+ * 单例模式：默认Bean是单例的
+ * 模板方法：比如JdbcTemplate
+ * 装饰器模式：
+ * 观察者模式：事件驱动
+ * 适配器模式：AOP中的通知，SpringMVC中的Controller
+ */
+
+/**
+ * TODO 循环依赖
+ */
 public class SpringApplication {
 	public static void main(String[] args) {
 		/**

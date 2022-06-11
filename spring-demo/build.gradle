@@ -15,6 +15,12 @@ dependencies {
     implementation(project(":spring-context"))
     implementation(project(":spring-aop"))
     implementation(project(":spring-aspects"))
+    implementation(project(":spring-jdbc"))
+    implementation(project(":spring-tx"))
+    //添加mysql依赖
+    implementation("mysql:mysql-connector-java:8.0.26")
+    //添加druid依赖
+    implementation("com.alibaba:druid:1.2.6")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }

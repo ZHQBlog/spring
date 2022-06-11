@@ -1,14 +1,20 @@
 package com.zhq;
 
 
-import com.zhq.annotationaspectj.User;
 import com.zhq.domain.ClassRoom;
 import com.zhq.domain.CollectionTest;
 import com.zhq.domain.CollectionUser;
 
+import com.zhq.tx.User;
+import com.zhq.tx.UserService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Spring框架的优点：
@@ -56,8 +62,23 @@ public class SpringApplication {
 		User user = (User) applicationContext.getBean("user");
 		user.add();*/
 
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("annotationAspectj.xml");
+		/*ApplicationContext applicationContext = new ClassPathXmlApplicationContext("annotationAspectj.xml");
 		User user = (User) applicationContext.getBean("user");
-		user.add();
+		user.add();*/
+
+		/**
+		 * 事务是数据库操作的基本单位，要么同时成功，要么同时失败
+		 * 事务的四个特征：原子性，一致性，隔离性，持久性
+		 * 实现方式：编程式，声明式
+		 */
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("tx.xml");
+		UserService userService = (UserService) applicationContext.getBean("userService");
+		//userService.add(new User("haha", "123"));
+		//userService.update();
+		/*List<User> users = userService.queryUsers();
+		for (User user : users) {
+			System.out.println(user);
+		}*/
+		userService.test(new User("狗子", "123"), 1, new User("狗蛋", "1234"), 2);
 	}
 }

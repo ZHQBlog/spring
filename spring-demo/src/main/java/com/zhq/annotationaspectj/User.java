@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class User {
 
-	public void add(){
+	public String add(){
 		System.out.println("User--add");
+		//int a = 10/0;
+		return "val";
 	}
 }

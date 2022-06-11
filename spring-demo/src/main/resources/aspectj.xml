@@ -6,7 +6,7 @@
 	<!--创建业务类-->
 	<bean id="user" class="com.zhq.aspectj.User"></bean>
 	<!--创建增强类-->
-	<bean id="userProxy" class="com.zhq.annotationaspectj.UserProxy"></bean>
+	<bean id="userProxy" class="com.zhq.aspectj.UserProxy"></bean>
 
 	<!--spring源码使用aspectj时需要设置使用aspect编辑器（acj）-->
 	<aop:config>

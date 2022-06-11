@@ -1,12 +1,30 @@
-package com.zhq.domain;
+package com.zhq.annotationdomain;
+
+import com.zhq.domain.ClassRoom;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * @author ZHQ
- * @date 2022/06/09 20:32
+ * @date 2022/06/10 16:53
  */
+//默认是类名并且首字母小写
+@Component //@Service，@Controller，@Repository
 public class User {
+
+	@Value("狗子")
 	private String username;
+
+	@Value("1234")
 	private String password;
+
+	/**
+	 * @Autowird：根据类型自动注入
+	 * @Autowird+@Qualifier:根据名称自动注入
+	 * @Resource：java中的注解，默认通过类型注入，添加name属性通过名称注入
+	 */
+	@Autowired
 	private ClassRoom classRoom;
 
 	public User() {

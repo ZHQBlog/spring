@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!--创建对象，默认执行无参构造-->
+	<bean id="user1" class="com.zhq.domain.User">
+		<!--使用set方法注入属性（实体类中要有set方法），可以进行部分注入，会覆盖setter属性-->
+		<property name="username" value="狗子"/>
+		<property name="password" value="1234"/>
+	</bean>
+
+	<!--使用有参构造函数创建对象，没有部分注入，任意改变都会创建一个新的对象-->
+	<bean id="user2" class="com.zhq.domain.User">
+		<constructor-arg name="username" value="狗子"/>
+		<constructor-arg name="password" value="1234"/>
+	</bean>
+
+	<!--给属性赋值null-->
+	<bean id="userNull" class="com.zhq.domain.User">
+		<property name="username">
+			<null/>
+		</property>
+		<property name="password">
+			<null/>
+		</property>
+	</bean>
+
+	<!--给属性赋特殊符号-->
+	<bean id="userSymbol" class="com.zhq.domain.User">
+		<property name="username">
+			<value><![CDATA[<狗子>]]></value>
+		</property>
+		<property name="password">
+			<null/>
+		</property>
+	</bean>
+
+	<!--注入外部bean-->
+	<bean id="userBean" class="com.zhq.domain.User">
+		<property name="username" value="狗子"/>
+		<property name="password" value="1234"/>
+		<property name="classRoom" ref="classRoom1"/>
+	</bean>
+	<bean id="classRoom1" class="com.zhq.domain.ClassRoom">
+		<property name="name" value="一班"/>
+	</bean>
+
+	<!--注入内部bean，只有将一个bean用作另一个bean的属性时才能使用内部bean-->
+	<bean id="userBeanOn" class="com.zhq.domain.User">
+		<property name="username" value="狗子"/>
+		<property name="password" value="1234"/>
+		<property name="classRoom">
+			<bean class="com.zhq.domain.ClassRoom">
+				<property name="name" value="二班"/>
+			</bean>
+		</property>
+	</bean>
+
+	<!--级联赋值-->
+	<bean id="user" class="com.zhq.domain.User">
+		<property name="username" value="狗子"/>
+		<property name="password" value="12345"/>
+		<property name="classRoom" ref="classRoom"/>
+		<!--classRoom对象必须实现get方法-->
+		<property name="classRoom.name" value="三班"/>
+	</bean>
+	<bean id="classRoom" class="com.zhq.domain.ClassRoom"/>
+
+	<!--
+		自动给引用类型注入容器中的对象：autowire
+		byName：通过对象名称注入（引用类型的属性和对象名相同，且数据类型一致）
+		byType：通过数据类型注入（引用类型和对象的类型同源，如果容器有多个同源对象自动注入会报错）
+			同源：引用类型的数据类型和对象的数据类型属于同一个类，或父子类，或接口实现类
+	-->
+	<bean id="userAuto" class="com.zhq.domain.User" autowire="byName">
+		<property name="username" value="狗子"/>
+		<property name="password" value="123"/>
+	</bean>
+
+	<!--提取集合中的内容-->
+	<util:list id="list">
+		<value>list1</value>
+		<value>list2</value>
+		<value>list3</value>
+	</util:list>
+
+	<!--注入集合属性(普通类型)-->
+	<bean id="collectionList" class="com.zhq.domain.CollectionTest">
+
+		<!--注入数组-->
+		<property name="array">
+			<array>
+				<value>array1</value>
+				<value>array2</value>
+				<value>array3</value>
+			</array>
+		</property>
+
+		<!--注入List集合-->
+		<property name="list" ref="list"></property>
+
+		<!--注入Set集合-->
+		<property name="set">
+			<set>
+				<value>set1</value>
+				<value>set2</value>
+				<value>set3</value>
+			</set>
+		</property>
+
+		<!--注入Map集合-->
+		<property name="map">
+			<map>
+				<entry key="map1" value="map1"/>
+				<entry key="map2" value="map2"/>
+				<entry key="map3" value="map3"/>
+			</map>
+		</property>
+	</bean>
+
+	<!--注入集合属性（引用类型）-->
+	<bean id="collectionUser" class="com.zhq.domain.CollectionUser">
+		<!--注入数组-->
+		<property name="arrayUser">
+			<array>
+				<ref bean="userBean"></ref>
+				<ref bean="userBeanOn"></ref>
+				<ref bean="user"></ref>
+			</array>
+		</property>
+
+		<!--注入List集合-->
+		<property name="listUser">
+			<list>
+				<ref bean="userBean"></ref>
+				<ref bean="userBeanOn"></ref>
+				<ref bean="user"></ref>
+			</list>
+		</property>
+
+		<!--注入Set集合-->
+		<property name="setUser">
+			<set>
+				<ref bean="userBean"></ref>
+				<ref bean="userBeanOn"></ref>
+				<ref bean="user"></ref>
+			</set>
+		</property>
+
+		<!--注入Map集合-->
+		<property name="mapUser">
+			<map>
+				<entry key="user1" value-ref="userBean"></entry>
+				<entry key="user2" value-ref="userBeanOn"></entry>
+				<entry key="user3" value-ref="user"></entry>
+			</map>
+		</property>
+
+		<!--注入List中Map类型-->
+		<property name="listMap">
+			<list>
+				<map>
+					<entry key="user1" value="user1"></entry>
+					<entry key="user2" value="user2"></entry>
+					<entry key="user3" value="user3"></entry>
+				</map>
+				<map>
+					<entry key="user1" value="user1"></entry>
+					<entry key="user2" value="user2"></entry>
+					<entry key="user3" value="user3"></entry>
+				</map>
+				<map>
+					<entry key="user1" value="user1"></entry>
+					<entry key="user2" value="user2"></entry>
+					<entry key="user3" value="user3"></entry>
+				</map>
+			</list>
+		</property>
+	</bean>
+
+	<!--
+		设置bean的作用域（默认是单例的）
+		singleton：单例对象，加载配置文件时创建单实例对象
+		prototype：多实例对象，在使用getBean()获取对象时创建多实例对象
+	-->
+	<bean id="classRoomScope" class="com.zhq.domain.ClassRoom" scope="singleton" init-method="init" destroy-method="destroy">
+		<property name="name" value="五班"/>
+	</bean>
+
+	<!--
+		bean的生命周期：
+		创建对象：通过构造器创建bean实例（默认是无参构造器）
+		属性注入：创建之后属性值是默认值，需要进行属性注入（set方法，构造函数，populateBean()方法）
+		Aware接口：根据实现的Aware接口获取对应的对象，进行操作（BeanNameAware，BeanFactoryAware，ApplicationContextAware）
+		BeanPostProcessor接口：将bean实例传入postProcessBeforeInitialization()方法对bean实例进行相应操作
+		初始化：可实现InitializingBean接口中的afterPropertiesSet()方法，或init-method()方法
+		BeanPostProcessor接口：将初始化后的bean实例传入postProcessAfterInitialization()方法对bean实例进行相应的操作（AOP在此处调用）
+		获取对象：getBean()方法
+		销毁：可实现DisposableBean接口的中的destroy()方法，或destroy-method()方法
+
+		ApplicationContext不能手动销毁容器，要用AbstractApplicationContext
+	-->
+
+</beans>

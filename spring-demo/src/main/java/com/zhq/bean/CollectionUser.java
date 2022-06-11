@@ -1,4 +1,4 @@
-package com.zhq.domain;
+package com.zhq.bean;
 
 import java.util.Arrays;
 import java.util.List;

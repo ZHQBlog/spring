@@ -1,6 +1,6 @@
-package com.zhq.annotationdomain;
+package com.zhq.annotationbean;
 
-import com.zhq.domain.ClassRoom;
+import com.zhq.bean.ClassRoom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

@@ -2,13 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	   xmlns:aop="http://www.springframework.org/schema/aop"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<!--加载jdbc配置文件-->
 	<context:property-placeholder location="classpath:jdbc.properties"/>
 
-	<context:component-scan base-package="com.zhq.tx"/>
+	<context:component-scan base-package="com.zhq.annotationtx"/>
 
 	<!--使用JDBC驱动数据源-->
 	<!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -37,18 +36,7 @@
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 
-	<!--使用aop，将事务增强到指定的方法-->
-	<aop:config>
-		<aop:pointcut id="p" expression="execution(* com.zhq.tx.UserService.*(..))"/>
-
-		<aop:advisor advice-ref="interceptor" pointcut-ref="p"/>
-	</aop:config>
-
-	<!--配置事务方法的属性-->
-	<tx:advice id="interceptor" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="text" propagation="REQUIRED" isolation="REPEATABLE_READ" read-only="false"/>
-		</tx:attributes>
-	</tx:advice>
+	<!--开启注解事务-->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>

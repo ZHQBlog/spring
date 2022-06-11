@@ -6,13 +6,13 @@
 
 	<!--开启注解，扫描annotationdomain包中的注解-->
 	<!--取消自动扫描所有注解，自定义要扫描的注解-->
-	<!--<context:component-scan base-package="com.zhq.annotationdomain" use-default-filters="false">
+	<!--<context:component-scan base-package="com.zhq.annotationbean" use-default-filters="false">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Component"/>
 	</context:component-scan>-->
 
 	<!--从自动扫描所有注解中去掉指定注解不扫描-->
-	<!--<context:component-scan base-package="com.zhq.annotationdomain">
+	<!--<context:component-scan base-package="com.zhq.annotationbean">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Component"/>
 	</context:component-scan>-->
-	<context:component-scan base-package="com.zhq.annotationdomain"/>
+	<context:component-scan base-package="com.zhq.annotationbean"/>
 </beans>

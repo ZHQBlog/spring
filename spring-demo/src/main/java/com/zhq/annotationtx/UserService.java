@@ -1,4 +1,4 @@
-package com.zhq.tx;
+package com.zhq.annotationtx;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,8 +53,15 @@ public class UserService {
 		userDao.batchDeleteUser(args);
 	}
 
+	@Transactional(
+			propagation = Propagation.REQUIRED,
+			isolation = Isolation.REPEATABLE_READ,
+			timeout = -1,
+			readOnly = false,
+			rollbackFor = {}
+	)
 	public void test(User user1, Integer id1,
-                     User user2, Integer id2){
+					 User user2, Integer id2){
 		userDao.update(user1, id1);
 		int a = 10/0;
 		userDao.update(user2, id2);

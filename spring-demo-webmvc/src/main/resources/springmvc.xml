@@ -15,6 +15,29 @@
 		可插拔式组件
 	-->
 
+	<!--
+		组件：
+		DispatcherServlet：前端控制器，整个流程控制的中心，用来调用其他组件处理用户的请求
+		HandlerMapping：处理器映射器，根据请求的url、method等信息查找Handler控制器方法
+		HandlerAdapter：处理器适配器，执行Handler控制器方法
+		ViewResolver：视图解析器，进行视图解析得到相应的视图
+		View：视图，将数据进行渲染
+	-->
+
+	<!--
+		执行流程：DispatcherServlet-HandlerMapping(HandlerExecutionChain)-HandlerAdapter-perHandle()-Handler-
+				ModelAndView-postHandle()-ViewResolver-(HandlerExceptionResolver)-afterCompletion()
+		用户发送请求被DispatcherServlet前端控制器捕获，并对URL进行解析得到URI
+		URI对应的映射不存在，判断是否配置了默认处理器
+		URI对应的映射存在，调用HandlerMapping获得对应的Handler的所有相关对象（Handler对象、拦截器），以HandlerExecutionChain执行链返回
+		DispatcherServlet根据获得的Handler选择一个合适的HandlerAdapter，获取HandlerAdapter成功将开始执行拦截器的perHandle()方法
+		填充Handler形参，开始执行Handler控制器方法（填充形参时会进行HttpMessageConveter、类型转换、数据格式化、数据验证）
+		Handler控制器方法执行完成后向DispatcherServlet返回一个ModelAndView对象，此时开始执行拦截器的postHandle()方法
+		根据返回的ModelAndView选择一个合适的ViewResolver进行视图解析，根据Model和View进行视图渲染（判断异常，如果存在异常，执行HandlerExceptionResolver异常处理器）
+		渲染视图完成之后执行拦截器的afterCompletion()方法
+		将渲染的结果返回到客户端
+	-->
+
 	<context:component-scan base-package="com.zhq.controller"/>
 
 	<!-- 配置Thymeleaf视图解析器 -->
